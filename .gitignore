@@ -1,0 +1,25 @@
+# Ignore build artifacts and output directories
+/build/
+/debug/
+/target/
+_build/
+[Bb]uild/
+
+# Ignore ESP-IDF configuration files (keep sdkconfig.defaults tracked if used)
+sdkconfig
+sdkconfig.old
+*.log
+
+# Ignore VS Code specific workspace/user settings (optional, some config can be shared)
+.vscode/
+*.code-workspace
+
+# Ignore editor/OS specific files
+.DS_Store
+.*.swp
+.*.swo
+*~
+.idea/
+__pycache__/
+.pytest_cache/
+__installed_packages
