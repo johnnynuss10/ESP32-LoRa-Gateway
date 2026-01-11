@@ -66,27 +66,43 @@ void save_credentials(const char *ssid, const char *pass, const char *aio_user, 
 
 void provision_via_uart(char *ssid, char *pass, char *aio_user, char *aio_key)
 {
+    char tBuf[32];
     printf("\n=== ESP32 Provisioning ===\n");
+    while(1)
+    {
+        printf("\nEnter WiFi SSID: ");
+        fflush(stdout);
+        //ESP_LOGI("TAG", "Enter WiFi SSID: ");
+        uart_getline(ssid, 32);
 
-    printf("\nEnter WiFi SSID: ");
-    fflush(stdout);
-    //ESP_LOGI("TAG", "Enter WiFi SSID: ");
-    uart_getline(ssid, 32);
+        printf("\nEnter WiFi Password: ");
+        fflush(stdout);
+        //printf("Enter WiFi Password: ");
+        uart_getline(pass, 64);
 
-    printf("\nEnter WiFi Password: ");
-    fflush(stdout);
-    //printf("Enter WiFi Password: ");
-    uart_getline(pass, 64);
+        printf("\nEnter Adafruit IO Username: ");
+        fflush(stdout);
+        //printf("Enter Adafruit IO Username: ");
+        uart_getline(aio_user, 32);
 
-    printf("\nEnter Adafruit IO Username: ");
-    fflush(stdout);
-    //printf("Enter Adafruit IO Username: ");
-    uart_getline(aio_user, 32);
-
-    printf("\nEnter Adafruit IO Key: ");
-    fflush(stdout);
-    //printf("Enter Adafruit IO Key: ");
-    uart_getline(aio_key, 64);
+        printf("\nEnter Adafruit IO Key: ");
+        fflush(stdout);
+        //printf("Enter Adafruit IO Key: ");
+        uart_getline(aio_key, 64);
+        printf("\nYou entered: \n");
+        printf("SSID: %s\n", ssid);
+        printf("Wifi Password: %s\n", pass);
+        printf("Adafruit IO username: %s\n", aio_user);
+        printf("Adafruit IO Key: %s\n", aio_key);
+        printf("Is that correct? (Y/N) ");
+        fflush(stdout);
+        uart_getline(tBuf, sizeof(tBuf));
+        if (tolower(tBuf[0]) == 'y')
+        {
+            break;
+        }
+        
+    }
 
     save_credentials(ssid, pass, aio_user, aio_key);
 }
@@ -99,8 +115,8 @@ void InitCredentials(wifi_config_t * wificfg, esp_mqtt_client_config_t * mqttcfg
         ESP_LOGW("BOOT", "No credentials found, entering provisioning");
         provision_via_uart(ssid, pass, aio_user, aio_key);
     }
-    ESP_LOGW("BOOT", "No credentials found, entering provisioning");
-    provision_via_uart(ssid, pass, aio_user, aio_key);
+    //ESP_LOGW("BOOT", "No credentials found, entering provisioning");
+    //provision_via_uart(ssid, pass, aio_user, aio_key);
 
 
     // Use loaded credentials
