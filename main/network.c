@@ -17,11 +17,24 @@ static esp_mqtt_client_handle_t mqtt_client;
 
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
 
-esp_mqtt_client_config_t mqtt_cfg = 
-{
-    .broker.address.uri = AIO_BROKER,
-    .credentials.username = "",
-    .credentials.authentication.password = "",
+esp_mqtt_client_config_t mqtt_cfg = {
+    .broker = {
+        .address = {
+            .transport = MQTT_TRANSPORT_OVER_SSL,
+            .hostname = "a1mj344lyl9f0r-ats.iot.us-east-1.amazonaws.com",
+            .port = 8883,
+        },
+        .verification = {
+            .certificate = (const char *)aws_root_ca_pem_start,
+        },
+    },
+
+    .credentials = {
+        .authentication = {
+            .certificate = (const char *)certificate_pem_crt_start,
+            .key = (const char *)private_pem_key_start,
+        },
+    },
 };
 
 void mqtt_start(void)
@@ -47,7 +60,7 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 void adafruit_io_publish(const char *feed, const char *value)
 {
     char topic[64];
-    snprintf(topic, sizeof(topic), "%s/feeds/%s", (mqtt_cfg.credentials.username), feed);
+    snprintf(topic, sizeof(topic), "%s", /*(mqtt_cfg.credentials.username)*/ feed);
 
     esp_mqtt_client_publish(mqtt_client, topic, value, 0, 1, 0);
 }

@@ -1,7 +1,7 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-#define AIO_BROKER   "mqtt://io.adafruit.com:1883"
+#define AWS_BROKER   "a1mj344lyl9f0r-ats.iot.us-east-1.amazonaws.com"
 #define BUF_LEN 1024
 #define FEED_NAME "johnnyFeed"
 
