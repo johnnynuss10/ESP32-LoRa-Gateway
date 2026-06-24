@@ -110,7 +110,7 @@ void provision_via_uart(char *ssid, char *pass, char *aio_user, char *aio_key)
 void InitCredentials(wifi_config_t * wificfg, esp_mqtt_client_config_t * mqttcfg)
 {
     
-
+    
     if (!load_credentials(ssid, pass, aio_user, aio_key)) {
         ESP_LOGW("BOOT", "No credentials found, entering provisioning");
         provision_via_uart(ssid, pass, aio_user, aio_key);

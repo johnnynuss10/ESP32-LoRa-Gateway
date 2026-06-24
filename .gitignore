@@ -23,3 +23,8 @@ sdkconfig.old
 __pycache__/
 .pytest_cache/
 __installed_packages
+
+# Ignore certificates 
+*.key
+*.pem
+*.crt
